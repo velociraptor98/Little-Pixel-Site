@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="text-scale" content="scale" />
+		<meta name="theme-color" content="#272e1a" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&display=swap"
+		/>
+		<script>
+			// Decide on the intro sting before first paint so the page never flashes underneath it.
+			try {
+				const seen = sessionStorage.getItem('lp-splash-seen');
+				const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+				if (!seen && !still) document.documentElement.classList.add('splash');
+			} catch {}
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

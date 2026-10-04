@@ -1,0 +1,197 @@
+/* Palette sampled straight from the Little Pixel sting. */
+:root {
+	--night: #1d2313;
+	--bg: #272e1a;
+	--bg-2: #323a22;
+	--bg-3: #3d4629;
+	--cream: #f8f4ec;
+	--sky-1: #ffe1d1;
+	--sky-2: #fec5a5;
+	--sun: #f6a06b;
+	--sun-edge: #d67f4a;
+	--rust: #c67039;
+	--sage: #ccdbb3;
+	--sage-2: #adbd93;
+	--olive: #8fa073;
+	--moss: #73845a;
+
+	--font-display: 'Pixelify Sans', ui-monospace, monospace;
+	--font-arcade: 'Press Start 2P', ui-monospace, monospace;
+
+	/* One "art pixel". Borders, shadows and steps are all multiples of it. */
+	--px: 4px;
+	--gutter: 16px;
+	--max: 1120px;
+}
+
+@media (min-width: 900px) {
+	:root {
+		--px: 5px;
+		--gutter: 32px;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 96px;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--cream);
+	font-family: var(--font-display);
+	font-size: 1.125rem;
+	line-height: 1.55;
+	font-variant-ligatures: none;
+	-webkit-font-smoothing: none;
+	font-smooth: never;
+	overflow-x: hidden;
+}
+
+html.splash body {
+	overflow: hidden;
+}
+
+img,
+canvas {
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
+a {
+	color: inherit;
+}
+
+::selection {
+	background: var(--rust);
+	color: var(--cream);
+}
+
+:focus-visible {
+	outline: var(--px) solid var(--sun);
+	outline-offset: var(--px);
+}
+
+.container {
+	width: 100%;
+	max-width: calc(var(--max) + var(--gutter) * 2);
+	margin: 0 auto;
+	padding: 0 var(--gutter);
+}
+
+/* The wordmark's signature: cream letters with a rust drop one pixel down-left. */
+.pixel-shadow {
+	text-shadow: calc(var(--px) * -1) var(--px) 0 var(--rust);
+}
+
+.eyebrow {
+	font-family: var(--font-arcade);
+	font-size: 0.7rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--sun);
+	margin: 0 0 1.25rem;
+}
+
+.section-title {
+	font-family: var(--font-display);
+	font-weight: 700;
+	font-size: clamp(2rem, 5vw, 3.25rem);
+	line-height: 1.05;
+	margin: 0 0 1rem;
+}
+
+/* Checkerboard dither, the same trick the sting uses between colour bands. */
+.dither {
+	height: calc(var(--px) * 4);
+	background-color: var(--a, var(--bg));
+	background-image: conic-gradient(
+		var(--b, var(--bg-2)) 25%,
+		transparent 0 50%,
+		var(--b, var(--bg-2)) 0 75%,
+		transparent 0
+	);
+	background-size: calc(var(--px) * 2) calc(var(--px) * 2);
+}
+
+.btn {
+	--btn-bg: var(--cream);
+	--btn-fg: var(--bg);
+	--btn-shadow: var(--rust);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75em;
+	padding: 1.1em 1.4em;
+	font-family: var(--font-arcade);
+	font-size: 0.72rem;
+	line-height: 1;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: var(--btn-fg);
+	background: var(--btn-bg);
+	border: 0;
+	cursor: pointer;
+	clip-path: polygon(
+		0 var(--px),
+		var(--px) var(--px),
+		var(--px) 0,
+		calc(100% - var(--px)) 0,
+		calc(100% - var(--px)) var(--px),
+		100% var(--px),
+		100% calc(100% - var(--px)),
+		calc(100% - var(--px)) calc(100% - var(--px)),
+		calc(100% - var(--px)) 100%,
+		var(--px) 100%,
+		var(--px) calc(100% - var(--px)),
+		0 calc(100% - var(--px))
+	);
+	box-shadow: inset 0 calc(var(--px) * -1) 0 var(--btn-shadow);
+	transition: transform 80ms steps(2);
+}
+
+.btn:hover {
+	transform: translateY(calc(var(--px) * -1));
+}
+
+.btn:active {
+	transform: translateY(0);
+	box-shadow: inset 0 var(--px) 0 var(--btn-shadow);
+}
+
+.btn--ghost {
+	--btn-bg: var(--bg-3);
+	--btn-fg: var(--cream);
+	--btn-shadow: var(--night);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
